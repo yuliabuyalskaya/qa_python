@@ -37,13 +37,13 @@ class TestBooksCollector:
         collector.set_book_genre('12 стульев', 'Комедии')
         assert len(collector.get_books_with_specific_genre('Комедии')) == 2
 
-    def test_get_books_genre_type_result_is_dict(self):
+    def test_get_books_genre_type_result_is_right_dict(self):
         collector = BooksCollector()
         collector.add_new_book('Приключение Васи Куролесова')
         collector.add_new_book('12 стульев')
         collector.set_book_genre('Приключение Васи Куролесова', 'Комедии')
         collector.set_book_genre('12 стульев', 'Комедии')
-        assert type(collector.get_books_genre()) == dict
+        assert collector.get_books_genre() == {'Приключение Васи Куролесова':'Комедии', '12 стульев': 'Комедии'}
 
 
 
@@ -77,6 +77,14 @@ class TestBooksCollector:
         assert type(collector.favorites) == list
 
 
+    @pytest.mark.parametrize('name', ['Оно', '12 стульев'])
+    def test_get_list_of_favorites_books_ridht_result(self,name):
+        test_result = []
+        test_result.append(name)
+        collector = BooksCollector()
+        collector.add_new_book(name)
+        collector.add_book_in_favorites(name)
+        assert collector.get_list_of_favorites_books() == test_result
 
 
 
